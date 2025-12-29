@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Subject CRUD</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h2>Subject Management</h2>
+<input id="code" placeholder="Code">
+<input id="name" placeholder="Name">
+<button onclick="add()">Add</button>
+<ul id="list"></ul>
+<script>
+function load(){
+ $.get('/api/subjects', d=>{
+   $('#list').empty();
+   d.forEach(s=>$('#list').append(`<li>${s.code} - ${s.name}</li>`));
+ });
+}
+function add(){
+ $.ajax({
+  url:'/api/subjects',
+  type:'POST',
+  contentType:'application/json',
+  data:JSON.stringify({code:$('#code').val(),name:$('#name').val()}),
+  success:load
+ });
+}
+load();
+</script>
+</body>
+</html>
